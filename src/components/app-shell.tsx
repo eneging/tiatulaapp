@@ -1025,7 +1025,7 @@ export default function AppShell() {
                               <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SimulacionPago" alt="Código QR de Pago" className="opacity-80" />
                             </div>
                             <p className="mt-4 font-bold text-sm" style={{ color: BRAND.brown }}>1. Abre tu App de {paymentMethod === "yape" ? "Yape" : "Plin"}</p>
-                            <p className="text-xs text-center mt-1" style={{ color: BRAND.brownSoft }}>2. Escanea este código o transfiere al número <br/><span className="font-bold text-black">999 888 777</span></p>
+                            <p className="text-xs text-center mt-1" style={{ color: BRAND.brownSoft }}>2. Escanea este código o transfiere al número <br/><span className="font-bold text-black">932563713</span></p>
                           </div>
                         )}
 
