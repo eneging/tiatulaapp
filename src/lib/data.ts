@@ -89,8 +89,8 @@ export const products: Product[] = [
 ];
 
 export const branches = [
-  { id: "principal", name: "Local Principal", address: "Av. Brasil 120", eta: "15 min" },
-  { id: "sucursal", name: "Sucursal Centro", address: "Jr. de la Unión 345", eta: "20 min" },
+  { id: "principal", name: "Local Principal", address: "Av. Acomayo 111, Ica (esquina del Puente Grau)", eta: "15 min" },
+  { id: "sucursal", name: "Sucursal Centro", address: "AA.HH. 28 de Julio Mz G, Lt 7, Parcona", eta: "20 min" },
 ];
 
 export const deliverySteps = [

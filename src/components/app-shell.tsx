@@ -240,7 +240,7 @@ export default function AppShell() {
   // ==========================================
   const handleCallRider = () => {
     // Abre el teclado de llamadas del celular
-    window.open("tel:+51932563713", "_self");
+    window.open("tel:+51955555248", "_self");
   };
 
   const handleWhatsAppRider = () => {
@@ -256,7 +256,7 @@ export default function AppShell() {
     const text = `¡Hola Carlos! Soy *${customer?.name}*.%0ATe escribo para coordinar la entrega de mi pedido *#${orderNumber}*.%0A%0A*🧾 Detalle de mi compra:*%0A• ${itemsList}%0A%0A*💰 Total:* S/ ${total.toFixed(2)}%0A*✅ Estado:* ${paymentStatusString}%0A%0A¿En cuánto tiempo aproximado estarías llegando a mi ubicación?`;
     
     // 4. Abrimos WhatsApp
-    window.open(`https://wa.me/51932563713?text=${text}`);
+    window.open(`https://wa.me/51955555248?text=${text}`);
   };
 
   // Si el usuario presionó "Continuar" pero no está logueado, mostramos Login
@@ -1025,7 +1025,7 @@ export default function AppShell() {
                               <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SimulacionPago" alt="Código QR de Pago" className="opacity-80" />
                             </div>
                             <p className="mt-4 font-bold text-sm" style={{ color: BRAND.brown }}>1. Abre tu App de {paymentMethod === "yape" ? "Yape" : "Plin"}</p>
-                            <p className="text-xs text-center mt-1" style={{ color: BRAND.brownSoft }}>2. Escanea este código o transfiere al número <br/><span className="font-bold text-black">932563713</span></p>
+                            <p className="text-xs text-center mt-1" style={{ color: BRAND.brownSoft }}>2. Escanea este código o transfiere al número <br/><span className="font-bold text-black">955555248</span></p>
                           </div>
                         )}
 
