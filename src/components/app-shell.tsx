@@ -256,7 +256,7 @@ export default function AppShell() {
     const text = `¡Hola Carlos! Soy *${customer?.name}*.%0ATe escribo para coordinar la entrega de mi pedido *#${orderNumber}*.%0A%0A*🧾 Detalle de mi compra:*%0A• ${itemsList}%0A%0A*💰 Total:* S/ ${total.toFixed(2)}%0A*✅ Estado:* ${paymentStatusString}%0A%0A¿En cuánto tiempo aproximado estarías llegando a mi ubicación?`;
     
     // 4. Abrimos WhatsApp
-    window.open(`https://wa.me/51999888777?text=${text}`, "_blank");
+    window.open(`https://wa.me/51932563713?text=${text}`, "_blank");
   };
 
   // Si el usuario presionó "Continuar" pero no está logueado, mostramos Login
