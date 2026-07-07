@@ -89,7 +89,7 @@ const CATEGORY_TABS = [
 export default function AppShell() {
   // ESTADOS PRINCIPALES
   const [customer, setCustomer] = useState<Customer | null>(null);
-  const [showLogin, setShowLogin] = useState<boolean>(false); // Controla si mostramos la pantalla de login
+  const [showLogin, setShowLogin] = useState<boolean>(false);
   
   const [view, setView] = useState<View>("home");
   const [selectedBranch, setSelectedBranch] = useState(branches[0]);
@@ -193,11 +193,10 @@ export default function AppShell() {
     });
   };
 
-  // NUEVO: Pide login obligatoriamente antes de elegir delivery/pago
   const handleProceedToCheckout = () => {
     if (!customer) {
       setCartOpen(false);
-      setShowLogin(true); // Abre la pantalla de login
+      setShowLogin(true); 
     } else {
       setCartOpen(false);
       setView("delivery_mode");
@@ -224,7 +223,7 @@ export default function AppShell() {
 
   const startNewOrder = () => {
     setView("home");
-    setCart({}); // Vaciamos el carrito al terminar todo el flujo
+    setCart({}); 
     setShowGateway(false);
     setTrackingStep("preparing");
     setSecondsElapsed(0);
@@ -235,38 +234,27 @@ export default function AppShell() {
     setView("catalog");
   };
 
-  // ==========================================
-  // FUNCIONES DE CONTACTO AL REPARTIDOR
-  // ==========================================
   const handleCallRider = () => {
-    // Abre el teclado de llamadas del celular
     window.open("tel:+51955555248", "_self");
   };
 
   const handleWhatsAppRider = () => {
-    // 1. Formateamos la lista de items
     const itemsList = cartItems.map(item => `${cart[item.id]}x ${item.name}`).join('%0A• ');
-    
-    // 2. Evaluamos si es efectivo u otro medio para el mensaje
     const paymentStatusString = paymentMethod === "efectivo" 
       ? "Pago pendiente contra entrega (Efectivo)" 
       : `Pagado con ${PAYMENT_LABELS[paymentMethod]}`;
 
-    // 3. Creamos el mensaje integrando los datos del cliente logueado
     const text = `¡Hola Carlos! Soy *${customer?.name}*.%0ATe escribo para coordinar la entrega de mi pedido *#${orderNumber}*.%0A%0A*🧾 Detalle de mi compra:*%0A• ${itemsList}%0A%0A*💰 Total:* S/ ${total.toFixed(2)}%0A*✅ Estado:* ${paymentStatusString}%0A%0A¿En cuánto tiempo aproximado estarías llegando a mi ubicación?`;
-    
-    // 4. Abrimos WhatsApp
     window.open(`https://wa.me/51955555248?text=${text}`);
   };
 
-  // Si el usuario presionó "Continuar" pero no está logueado, mostramos Login
   if (showLogin && !customer) {
     return (
       <Login
         onLoginSuccess={(data) => {
           setCustomer({ id: Math.random().toString(36).substr(2, 9), name: data.name, email: data.email, phone: data.phone });
           setShowLogin(false);
-          setView("delivery_mode"); // Lo enviamos directo al siguiente paso
+          setView("delivery_mode"); 
         }}
       />
     );
@@ -339,7 +327,6 @@ export default function AppShell() {
       }}>
       <div className="mx-auto relative flex min-h-screen max-w-2xl flex-col">
         
-        {/* Floating actions */}
         <div className="fixed top-5 left-5 right-5 z-40 flex items-center justify-between gap-2">
           <div
             className="rounded-full bg-white/95 backdrop-blur px-4 py-2.5 shadow-md border"
@@ -371,7 +358,7 @@ export default function AppShell() {
             <button
               onClick={() => {
                 if (!customer) setShowLogin(true);
-                else { setCustomer(null); setView("home"); setCart({}); } // Cerrar sesión si ya está logueado
+                else { setCustomer(null); setView("home"); setCart({}); } 
               }}
               className="h-11 w-11 rounded-full border flex items-center justify-center bg-white shadow-md transition"
               style={{ borderColor: BRAND.peach }}
@@ -382,7 +369,6 @@ export default function AppShell() {
           </div>
         </div>
 
-        {/* Payment simulation overlay */}
         <AnimatePresence>
           {(isProcessingPayment || paymentSuccess) && (
             <motion.div
@@ -431,9 +417,6 @@ export default function AppShell() {
         <main className="flex-1 overflow-y-auto pt-4">
           <AnimatePresence mode="wait">
             
-            {/* ============================================================ */}
-            {/* STEP 1 · Elige tu local                                      */}
-            {/* ============================================================ */}
             {view === "home" && (
               <motion.section key="home" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="pb-8">
                 <div className="relative pt-2 ">
@@ -504,9 +487,6 @@ export default function AppShell() {
               </motion.section>
             )}
 
-            {/* ============================================================ */}
-            {/* STEP 2 · Elige tu pedido (combo + categorías)                */}
-            {/* ============================================================ */}
             {view === "pedido" && (
               <motion.section key="pedido" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="pb-8">
                 <SheetHeader />
@@ -521,9 +501,8 @@ export default function AppShell() {
                     </p>
                   </div>
 
-                  {/* Tarjeta Destacada */}
                   <button
-                    onClick={() => addToCart("1")} // ID adaptado según tu data.ts
+                    onClick={() => addToCart("1")}
                     className="w-full text-left rounded-[20px] p-4 md:p-6 bg-[#FFFBF4] border border-orange-100 relative overflow-hidden min-h-[200px] md:min-h-[240px] shadow-sm transition-transform active:scale-95 flex items-center"
                   >
                     <div className="relative z-10 w-[45%] md:w-[50%]">
@@ -654,9 +633,6 @@ export default function AppShell() {
               </motion.section>
             )}
 
-            {/* ============================================================ */}
-            {/* Catalog — Filtro Dinámico de Productos                       */}
-            {/* ============================================================ */}
             {view === "catalog" && (
               <motion.section key="catalog" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="pb-8">
                 <SheetHeader />
@@ -754,9 +730,6 @@ export default function AppShell() {
               </motion.section>
             )}
 
-            {/* ============================================================ */}
-            {/* Drawer (Carrito Lateral / Modal)                             */}
-            {/* ============================================================ */}
             <AnimatePresence>
               {cartOpen && (
                 <motion.div key="cart-drawer" initial={{ opacity: 0, x: 400 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 400 }} className="fixed inset-0 z-50 flex">
@@ -833,9 +806,6 @@ export default function AppShell() {
               )}
             </AnimatePresence>
 
-            {/* ============================================================ */}
-            {/* STEP 3 · Modalidad de atención                               */}
-            {/* ============================================================ */}
             {view === "delivery_mode" && (
               <motion.section key="delivery_mode" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="pb-8">
                 <SheetHeader />
@@ -918,9 +888,6 @@ export default function AppShell() {
               </motion.section>
             )}
 
-            {/* ============================================================ */}
-            {/* STEP 4 · Selecciona tu método de pago y Simulación           */}
-            {/* ============================================================ */}
             {view === "payment" && (
               <motion.section key="payment" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="pb-8">
                 <SheetHeader />
@@ -929,7 +896,6 @@ export default function AppShell() {
 
                   <AnimatePresence mode="wait">
                     {!showGateway ? (
-                      /* --- PANTALLA A: SELECCIÓN DE MÉTODO --- */
                       <motion.div key="method-selection" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
                         <div className="text-center mt-5 px-6 mb-2">
                           <h2 className="text-3xl font-bold mb-2">Método de pago</h2>
@@ -991,7 +957,6 @@ export default function AppShell() {
                         </div>
                       </motion.div>
                     ) : (
-                      /* --- PANTALLA B: PASARELA SIMULADA --- */
                       <motion.div key="gateway-simulation" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
                         <div className="text-center mt-5 px-6 mb-6">
                           <h2 className="text-2xl font-bold mb-2">
@@ -1004,7 +969,6 @@ export default function AppShell() {
                           </p>
                         </div>
 
-                        {/* SIMULACIÓN: TARJETA */}
                         {paymentMethod === "tarjeta" && (
                           <div className="space-y-4 px-2">
                             <div className="rounded-2xl p-4 border-2" style={{ borderColor: BRAND.peach, backgroundColor: BRAND.creamCard }}>
@@ -1018,18 +982,16 @@ export default function AppShell() {
                           </div>
                         )}
 
-                        {/* SIMULACIÓN: YAPE / PLIN */}
                         {(paymentMethod === "yape" || paymentMethod === "plin") && (
                           <div className="flex flex-col items-center justify-center p-6 rounded-3xl border-2" style={{ borderColor: BRAND.peach, backgroundColor: BRAND.creamCard }}>
                             <div className="w-48 h-48 bg-white p-2 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center">
                               <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SimulacionPago" alt="Código QR de Pago" className="opacity-80" />
                             </div>
                             <p className="mt-4 font-bold text-sm" style={{ color: BRAND.brown }}>1. Abre tu App de {paymentMethod === "yape" ? "Yape" : "Plin"}</p>
-                            <p className="text-xs text-center mt-1" style={{ color: BRAND.brownSoft }}>2. Escanea este código o transfiere al número <br/><span className="font-bold text-black">955555248</span></p>
+                            <p className="text-xs text-center mt-1" style={{ color: BRAND.brownSoft }}>2. Escanea este código o transfiere al número <br/><span className="font-bold text-black">955 555 248</span></p>
                           </div>
                         )}
 
-                        {/* SIMULACIÓN: EFECTIVO */}
                         {paymentMethod === "efectivo" && (
                           <div className="flex flex-col items-center justify-center p-6 rounded-3xl border-2 text-center" style={{ borderColor: BRAND.peach, backgroundColor: BRAND.creamCard }}>
                             <Receipt size={48} style={{ color: BRAND.orange }} className="mb-4" />
@@ -1038,7 +1000,6 @@ export default function AppShell() {
                           </div>
                         )}
 
-                        {/* BOTONES DE LA PASARELA */}
                         <div className="relative mt-8 pb-4">
                           <div className="flex gap-3">
                             <Button variant="secondary" className="flex-[0.35] h-14 rounded-full text-xs px-1" onClick={() => setShowGateway(false)}>
@@ -1066,9 +1027,6 @@ export default function AppShell() {
               </motion.section>
             )}
 
-            {/* ============================================================ */}
-            {/* STEP 5 · Resultado — MAPA ANIMADO Y DETALLE DE COMPRA        */}
-            {/* ============================================================ */}
             {view === "tracking" && (
               <motion.section key="tracking" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="pb-8">
                 <SheetHeader />
@@ -1097,7 +1055,6 @@ export default function AppShell() {
                     </div>
                   </div>
 
-                  {/* MAPA ANIMADO CON FONDO REAL Y TRAZADO */}
                   {deliveryMode === "delivery" && (
                     <>
                       <div 
@@ -1186,7 +1143,6 @@ export default function AppShell() {
                           <p className="font-bold text-sm">Repartidor: Carlos</p>
                           <p className="text-xs" style={{ color: BRAND.brownSoft }}>Moto delivery</p>
                         </div>
-                        {/* Botones de Funciones Telefónicas */}
                         <button onClick={handleCallRider} className="h-10 w-10 rounded-full flex items-center justify-center hover:scale-105 transition-transform" style={{ backgroundColor: "#E8F7D0" }}>
                            <Phone size={16} style={{ color: "#5A8A00" }} />
                         </button>
@@ -1219,7 +1175,6 @@ export default function AppShell() {
                     </div>
                   )}
 
-                  {/* NUEVA SECCIÓN: IMAGEN Y DETALLE DEL PEDIDO AL FINAL DE LA COMPRA */}
                   <div className="rounded-3xl border-2 bg-white p-4" style={{ borderColor: BRAND.peach }}>
                     <p className="font-bold text-sm mb-4" style={{ color: BRAND.orange }}>RESUMEN DE TU COMPRA</p>
                     <div className="space-y-4">
